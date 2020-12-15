@@ -105,7 +105,7 @@ add_filter( 'show_admin_bar', '__return_false', PHP_INT_MAX );
 function wrg_template_redirect() {
 	global $wp_query;
 	$current_uri    = trim( wp_parse_url( add_query_arg( array() ), PHP_URL_PATH ), '/' );
-	$built_in_pages = apply_fitlers( 'wrg_build_in_pages', array( 'search', 'login', 'forgot-password', 'logout', 'register' ) );
+	$built_in_pages = apply_filters( 'wrg_built_in_pages', array( 'search', 'login', 'forgot-password', 'logout', 'register' ) );
 
 	if ( ! empty( $current_uri ) && ( in_array( $current_uri, $built_in_pages, true ) || false !== strpos( $current_uri, 'rp/' ) ) ) {
 		$wp_query->is_404 = false;
