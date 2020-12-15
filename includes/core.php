@@ -29,7 +29,7 @@ function wrg_wp_js() {
 	printf( '<script type="text/javascript">window.__WP=%s;</script>', $wordpress_window_object ); // phpcs:ignore
 }
 
-add_action( 'wrg_wp_js', 'wrg_wp_js' );
+add_action( 'wp_head', 'wrg_wp_js' );
 
 /**
  * Filters the __WP window object.
