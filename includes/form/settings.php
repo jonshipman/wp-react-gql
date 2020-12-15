@@ -93,3 +93,24 @@ function wrg_admin_settings_input( $field ) {
 		esc_attr( $value )
 	);
 }
+
+/**
+ * Registers settings
+ *
+ * @return void
+ */
+function wrg_recaptcha_register() {
+	register_setting(
+		'wrg_recaptcha',
+		'google_site_key',
+		'sanitize_text_field'
+	);
+
+	register_setting(
+		'wrg_recaptcha',
+		'google_secret_key',
+		'sanitize_text_field'
+	);
+}
+
+add_action( 'admin_init', 'wrg_recaptcha_register' );
