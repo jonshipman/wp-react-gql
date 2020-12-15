@@ -8,7 +8,7 @@
 From wp-cli
 
 ```bash
-wp plugin install --activate https://github.com/jonshipman/wp-react-gql/archive/main.zip
+wp plugin install --activate https://github.com/jonshipman/wp-react-gql/archive/master.zip
 ```
 
 ## Usage
