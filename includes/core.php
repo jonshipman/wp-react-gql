@@ -2,7 +2,7 @@
 /**
  * Core functions
  *
- * @package React Build
+ * @package WP React GQL
  * @since 1.0.0
  */
 
