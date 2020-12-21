@@ -112,6 +112,7 @@ function wrg_media_library_upload( $file, $mime ) {
 
 			wp_update_attachment_metadata( $id, wp_generate_attachment_metadata( $id, $new_file ) );
 
+			header( 'HTTP/1.1 200 OK' );
 			echo wp_json_encode( $id );
 			return;
 		}
