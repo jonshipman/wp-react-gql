@@ -58,6 +58,7 @@ function wrg_remove_all_scripts() {
 }
 
 add_action( 'wp_print_scripts', 'wrg_remove_all_scripts', PHP_INT_MAX );
+add_action( 'wp_head', 'wrg_remove_all_scripts', PHP_INT_MAX );
 
 /**
  * Remove all styles.
@@ -72,6 +73,7 @@ function wrg_remove_all_styles() {
 }
 
 add_action( 'wp_print_styles', 'wrg_remove_all_styles', PHP_INT_MAX );
+add_action( 'wp_head', 'wrg_remove_all_styles', PHP_INT_MAX );
 
 /**
  * Removes the wp-embed script.
