@@ -46,34 +46,29 @@ function wrg_js_window_filter( $wp ) {
 add_filter( 'wrg_wp_js_window', 'wrg_js_window_filter' );
 
 /**
- * Remove all scripts.
+ * Dequeue block library as we're including it in the public folder for development.
  *
  * @return void
  */
-function wrg_remove_all_scripts() {
-	if ( ! is_admin() ) {
-		global $wp_scripts;
-		$wp_scripts->queue = array();
+function wrg_remove_block_library() {
+	wp_dequeue_style( 'wp-block-library' );
+	wp_dequeue_style( 'wp-block-library-theme' );
+
+	if ( function_exists( 'is_woocommerce' ) ) {
+		wp_dequeue_style( 'wc-block-style' );
+		wp_dequeue_style( 'woocommerce-layout' );
+		wp_dequeue_style( 'woocommerce-general' );
+		wp_dequeue_style( 'woocommerce-smallscreen' );
+		wp_dequeue_script( 'wc-cart-fragments' );
+		wp_dequeue_script( 'woocommerce' );
+		wp_dequeue_script( 'wc-add-to-cart' );
+
+		wp_deregister_script( 'js-cookie' );
+		wp_dequeue_script( 'js-cookie' );
 	}
 }
 
-add_action( 'wp_print_scripts', 'wrg_remove_all_scripts', PHP_INT_MAX );
-add_action( 'wp_head', 'wrg_remove_all_scripts', PHP_INT_MAX );
-
-/**
- * Remove all styles.
- *
- * @return void
- */
-function wrg_remove_all_styles() {
-	if ( ! is_admin() ) {
-		global $wp_styles;
-		$wp_styles->queue = array();
-	}
-}
-
-add_action( 'wp_print_styles', 'wrg_remove_all_styles', PHP_INT_MAX );
-add_action( 'wp_head', 'wrg_remove_all_styles', PHP_INT_MAX );
+add_action( 'wp_enqueue_scripts', 'wrg_remove_block_library', PHP_INT_MAX );
 
 /**
  * Removes the wp-embed script.
