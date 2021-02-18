@@ -24,7 +24,7 @@ add_filter( 'wrg_nonce_actions', 'wrg_nonce_default' );
  * ... and append to this array for the fields...
  *
  * @param array $fields Forms to filter.
- * @return void
+ * @return array
  */
 function wrg_fields_default( $fields ) {
 	$fields['default'] = array(
@@ -93,3 +93,21 @@ function wrg_input_to_text( $input ) {
 
 	return implode( "\n", $walked );
 }
+
+/**
+ * Add the form nonces to the window object.
+ *
+ * @param array $window_wp Form nonces.
+ * @return array
+ */
+function wrg_add_nonces_to_window( $window_wp ) {
+	$window_wp['form'] = array();
+
+	foreach ( apply_filters( 'wrg_nonce_actions', array() ) as $form => $action ) {
+		$window_wp['form'][ $form ] = wp_create_nonce( $action );
+	}
+
+	return $window_wp;
+}
+
+add_filter( 'wrg_wp_js_window', 'wrg_add_nonces_to_window' );
