@@ -111,3 +111,17 @@ function wrg_add_nonces_to_window( $window_wp ) {
 }
 
 add_filter( 'wrg_wp_js_window', 'wrg_add_nonces_to_window' );
+
+/**
+ * Add recaptcha key to window.
+ *
+ * @param array $window_wp Form nonces.
+ * @return array
+ */
+function wrg_add_recaptcha_to_window( $window_wp ) {
+	$window_wp['recaptcha'] = get_option( 'google_site_key' ) ? get_option( 'google_site_key' ) : false;
+
+	return $window_wp;
+}
+
+add_filter( 'wrg_wp_js_window', 'wrg_add_recaptcha_to_window' );
