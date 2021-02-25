@@ -12,29 +12,22 @@
  * @return boolean If successful.
  */
 function wrg_check_recaptcha_token( $token ) {
-	$session = curl_init( 'https://www.google.com/recaptcha/api/siteverify' );
-	curl_setopt( $session, CURLOPT_POST, true );
-	curl_setopt(
-		$session,
-		CURLOPT_POSTFIELDS,
+	$body = array(
+		'secret'   => get_option( 'google_secret_key' ),
+		'response' => $token,
+		'remoteip' => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '127.0.0.1',
+	);
+
+	$response = wp_remote_post(
+		'https://www.google.com/recaptcha/api/siteverify',
 		array(
-			'secret'   => get_option( 'google_secret_key' ),
-			'response' => $token,
-			'remoteip' => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : '127.0.0.1',
+			'body' => $body,
 		)
 	);
-	curl_setopt( $session, CURLOPT_HEADER, false );
-	curl_setopt( $session, CURLOPT_ENCODING, 'UTF-8' );
-	curl_setopt( $session, CURLOPT_RETURNTRANSFER, true );
-	curl_setopt( $session, CURLOPT_SSL_VERIFYPEER, false );
-	$response = curl_exec( $session );
-	curl_close( $session );
 
-	try {
-		$results = json_decode( $response, true );
-	} catch ( \Exception $e ) {
-		return false;
-	}
+	$body = wp_remote_retrieve_body( $response );
+
+	$results = ( ! is_wp_error( $response ) ) ? json_decode( $body, true ) : array( 'success' => false );
 
 	if ( true === $results['success'] ) {
 		return true;
