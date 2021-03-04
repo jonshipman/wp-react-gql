@@ -17,7 +17,7 @@ function wrg_admin_menu_recaptcha() {
 		apply_filters( 'wrg_recaptcha_label', __( 'Recaptcha', 'wp-boilerplate-nodes' ) ),
 		'manage_options',
 		'wrg_recaptcha',
-		'wrg_recaptcha_page',
+		'wrg_recaptcha_page'
 	);
 }
 
